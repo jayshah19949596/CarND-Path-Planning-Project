@@ -246,7 +246,7 @@ int main() {
           	vector<double> next_y_vals;
 
             //Variables for lane definition
-            double lane_id = 1.0;
+            static double lane_id = 1.0;
             // Width of lane in meters
             double lane_width = 4.0;
             // Time taken by simulator to travel from current to next waypoint - 20 ms
@@ -272,7 +272,7 @@ int main() {
               double o_car_vy = sensor_fusion[i][4];
               double o_car_s = sensor_fusion[i][5];
               double o_car_d = sensor_fusion[i][6];
-              std::cout << o_car_d << '\n';
+              //std::cout << o_car_d << '\n';
               int o_car_lane;
 
               if (o_car_d > 0 && o_car_d < lane_width) {
@@ -285,6 +285,10 @@ int main() {
                 o_car_lane = -1;
               }
 
+	      if (o_car_lane == -1) {
+		continue;
+	      }
+
               double o_car_vel = sqrt(pow(o_car_vx, 2) + pow(o_car_vy, 2));
               double o_car_s_ahead = o_car_s + (o_car_vel * simulator_reach_time * previous_size);
 
@@ -294,15 +298,37 @@ int main() {
                   // std::cout << "S is: " << o_car_s_ahead << '\n';
                   // std::cout << "Car S is: " << car_s << '\n';
                 }
-              }
+              } else if ((o_car_lane - lane_id) == 1) {
+		std::cout << "Entered right lane check: " << previous_size << '\n';
+		if (((o_car_s_ahead > car_s) && ((o_car_s_ahead - car_s) < 30)) ||
+		    ((o_car_s_ahead > car_s) && ((car_s - o_car_s_ahead) < 10))) {
+                  is_car_right = true;
+                  // std::cout << "S is: " << o_car_s_ahead << '\n';
+                  // std::cout << "Car S is: " << car_s << '\n';
+                }
+	      } else if ((o_car_lane - lane_id) == -1) {
+		std::cout << "Entered right lane check: " << previous_size << '\n';
+		if (((o_car_s_ahead > car_s) && ((o_car_s_ahead - car_s) < 30)) || 			    ((o_car_s_ahead > car_s) && ((car_s - o_car_s_ahead) < 10))) {
+                  is_car_left = true;
+                  // std::cout << "S is: " << o_car_s_ahead << '\n';
+                  // std::cout << "Car S is: " << car_s << '\n';
+                }
+	      }  
             }
             // std::cout << "===================" << '\n';
 
             if (is_car_ahead) {
-              intended_velocity -= 1.0 * velocity_mph_to_ms_conv;
+	      if (!is_car_right) {
+		lane_id += 1;	
+	      } else if (!is_car_left) {
+		lane_id -= 1;
+	      } else {
+		intended_velocity -= 0.5 * velocity_mph_to_ms_conv;
+	      }
             } else {
                 intended_velocity += 0.5 * velocity_mph_to_ms_conv;
             }
+	    std::cout << "Car lane is: " << lane_id << '\n';
 
             if (intended_velocity >= safe_speed_limit) {
               intended_velocity = safe_speed_limit;
