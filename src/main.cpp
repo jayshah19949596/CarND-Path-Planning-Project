@@ -299,7 +299,7 @@ int main() {
                   // std::cout << "Car S is: " << car_s << '\n';
                 }
               } else if ((o_car_lane - lane_id) == 1) {
-		std::cout << "Entered right lane check: " << previous_size << '\n';
+		//std::cout << "Entered right lane check: " << previous_size << '\n';
 		if (((o_car_s_ahead > car_s) && ((o_car_s_ahead - car_s) < 30)) ||
 		    ((o_car_s_ahead > car_s) && ((car_s - o_car_s_ahead) < 10))) {
                   is_car_right = true;
@@ -307,7 +307,7 @@ int main() {
                   // std::cout << "Car S is: " << car_s << '\n';
                 }
 	      } else if ((o_car_lane - lane_id) == -1) {
-		std::cout << "Entered right lane check: " << previous_size << '\n';
+		//std::cout << "Entered right lane check: " << previous_size << '\n';
 		if (((o_car_s_ahead > car_s) && ((o_car_s_ahead - car_s) < 30)) || 			    ((o_car_s_ahead > car_s) && ((car_s - o_car_s_ahead) < 10))) {
                   is_car_left = true;
                   // std::cout << "S is: " << o_car_s_ahead << '\n';
@@ -318,9 +318,9 @@ int main() {
             // std::cout << "===================" << '\n';
 
             if (is_car_ahead) {
-	      if (!is_car_right) {
+	      if ((!is_car_right) && (lane_id != 2)) {
 		lane_id += 1;	
-	      } else if (!is_car_left) {
+	      } else if ((!is_car_left) && (lane_id != 0)) {
 		lane_id -= 1;
 	      } else {
 		intended_velocity -= 0.5 * velocity_mph_to_ms_conv;
