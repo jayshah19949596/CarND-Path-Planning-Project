@@ -362,6 +362,7 @@ int main() {
               else {
                 intended_velocity += 0.5 * velocity_mph_to_ms_conv;
             }
+            
             //Cap the speed of car to safe speed limit slightly less than speed limit
             if (intended_velocity >= safe_speed_limit) {
               intended_velocity = safe_speed_limit;
@@ -500,7 +501,7 @@ int main() {
               next_x_vals.push_back(waypoint_x);
               next_y_vals.push_back(waypoint_y);
             }
-            
+
           	msgJson["next_x"] = next_x_vals;
           	msgJson["next_y"] = next_y_vals;
 
