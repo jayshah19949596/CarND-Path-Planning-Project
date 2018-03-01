@@ -252,7 +252,7 @@ int main() {
             // Time taken by simulator to travel from current to next waypoint - 20 ms
             double simulator_reach_time = 0.02;
             double velocity_mph_to_ms_conv = 1609.344 / 3600;
-            double safe_speed_limit = 45 * velocity_mph_to_ms_conv;
+            double safe_speed_limit = 48 * velocity_mph_to_ms_conv;
             double minimum_speed_limit = 3 * velocity_mph_to_ms_conv;
 
             int previous_size = previous_path_x.size();
@@ -301,14 +301,14 @@ int main() {
               } else if ((o_car_lane - lane_id) == 1) {
 		//std::cout << "Entered right lane check: " << previous_size << '\n';
 		if (((o_car_s_ahead > car_s) && ((o_car_s_ahead - car_s) < 30)) ||
-		    ((o_car_s_ahead > car_s) && ((car_s - o_car_s_ahead) < 10))) {
+		    ((car_s > o_car_s_ahead) && ((car_s - o_car_s_ahead) < 15))) {
                   is_car_right = true;
                   // std::cout << "S is: " << o_car_s_ahead << '\n';
                   // std::cout << "Car S is: " << car_s << '\n';
                 }
 	      } else if ((o_car_lane - lane_id) == -1) {
 		//std::cout << "Entered right lane check: " << previous_size << '\n';
-		if (((o_car_s_ahead > car_s) && ((o_car_s_ahead - car_s) < 30)) || 			    ((o_car_s_ahead > car_s) && ((car_s - o_car_s_ahead) < 10))) {
+		if (((o_car_s_ahead > car_s) && ((o_car_s_ahead - car_s) < 30)) || 			    ((car_s > o_car_s_ahead) && ((car_s - o_car_s_ahead) < 15))) {
                   is_car_left = true;
                   // std::cout << "S is: " << o_car_s_ahead << '\n';
                   // std::cout << "Car S is: " << car_s << '\n';
@@ -328,7 +328,7 @@ int main() {
             } else {
                 intended_velocity += 0.5 * velocity_mph_to_ms_conv;
             }
-	    std::cout << "Car lane is: " << lane_id << '\n';
+	    //std::cout << "Car lane is: " << lane_id << '\n';
 
             if (intended_velocity >= safe_speed_limit) {
               intended_velocity = safe_speed_limit;
