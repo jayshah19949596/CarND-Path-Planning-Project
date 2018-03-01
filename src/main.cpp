@@ -256,7 +256,7 @@ int main() {
 
             //Speed limit constraints
             //Speed limit
-            const double safe_speed_limit = 45 * velocity_mph_to_ms_conv;
+            const double safe_speed_limit = 48 * velocity_mph_to_ms_conv;
             //Minimum speed to ensure path smoother spline library gets coordinates in ascending order
             const double minimum_speed_limit = 3 * velocity_mph_to_ms_conv;
 
@@ -325,14 +325,14 @@ int main() {
               else if ((o_car_lane - lane_id) == 1) {
                 //If car is getting closer than the safe range either from behind or is ahead
             		if (((o_car_s_ahead > car_s) && ((o_car_s_ahead - car_s) < safe_range_ahead)) ||
-            		    ((o_car_s_ahead > car_s) && ((car_s - o_car_s_ahead) < safe_range_behind))) {
+            		    ((car_s > o_car_s_ahead) && ((car_s - o_car_s_ahead) < safe_range_behind))) {
                   is_car_right = true;
                 }
             	} //If other car is the lane left of our car
               else if ((o_car_lane - lane_id) == -1) {
                 //If car is getting closer than the safe range either from behind or is ahead
             		if (((o_car_s_ahead > car_s) && ((o_car_s_ahead - car_s) < safe_range_ahead)) ||
-                    ((o_car_s_ahead > car_s) && ((car_s - o_car_s_ahead) < safe_range_behind))) {
+                    ((car_s > o_car_s_ahead) && ((car_s - o_car_s_ahead) < safe_range_behind))) {
                   is_car_left = true;
                 }
       	      }
