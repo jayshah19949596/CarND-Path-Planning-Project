@@ -124,6 +124,7 @@ Path planner was used to drive car with a maximum speed of 48 MPH along the high
 
 The was able to drive for more than 4.32 miles to meet the rubric specification of this project.
 
+Detailed insight into features of the simulator and implementation is demonstrated in this [Path Planning demo video](https://youtu.be/tg2NlXvlQYo).
 
   
 ## Steps for building the project
